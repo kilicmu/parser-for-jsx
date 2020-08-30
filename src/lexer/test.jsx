@@ -1,3 +1,1 @@
-<div>
-  <p>{'hello'}</p>
-</div>;
+<div class="school h"></div>;
