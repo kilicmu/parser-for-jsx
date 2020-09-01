@@ -2,13 +2,13 @@ export class Token {
   private _tag: string;
   private _props: object | null = null;
   private _children: Token[] = [];
-  private _value: string | null = null;
+  private _value: any = null;
   constructor(tag: string) {
     this._tag = tag;
   }
 
-  set value(value: string) {
-    this._value = value
+  set value(value: any) {
+    this._value = value;
   }
 
   get tag() {
@@ -28,6 +28,6 @@ export class Token {
   }
 
   toString() {
-    return `{tag: ${this._tag}, props: ${this._props}, children: ${this._children}, value: ${this._value}}`
+    return `{tag: ${this._tag}, props: ${this._props}, children: ${this._children}, value: ${this._value}}`;
   }
 }

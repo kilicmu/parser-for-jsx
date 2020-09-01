@@ -36,7 +36,7 @@ export class Lexer {
           }
         } else {
           // cant match this close tag
-          // @ts-ignore 
+          // @ts-ignore
           throw UnMatchedError.forTag(token.tag);
         }
         lastNode = null;
@@ -71,7 +71,7 @@ export class Lexer {
 
   //   collectJSX() {}
 
-  addText(text: string) { }
+  addText(text: string) {}
 
   matchOpen() {
     if (this.str.indexOf('<') !== 0) {
@@ -101,7 +101,7 @@ export class Lexer {
     if (!this.str.startsWith('</')) {
       return null;
     }
-    const matched = this.str.match(/^\<\/(\w+)\s*\>/)
+    const matched = this.str.match(/^\<\/(\w+)\s*\>/);
     if (matched) {
       const ret = new Token(matched[1]);
       this.str.slice(matched[0].length);
@@ -128,7 +128,6 @@ export class Lexer {
       this.str = this.str.slice(startContent.length);
       const matchedProps = this.handleAttrs();
       const props = this.handleAttrs();
-
     }
   }
 
@@ -145,7 +144,7 @@ export class Lexer {
   }
 
   handleAttrs() {
-    let state = 'AttrNameOrJSX'
+    let state = 'AttrNameOrJSX';
     const props: any = {};
     let attrName = '',
       quote = '',
@@ -156,13 +155,13 @@ export class Lexer {
       // use c to judge current state
       switch (state) {
         case 'AttrNameOrJSX': // 收集attr name
-          if (c === '/' || c === '>')
-            return props;
+          if (c === '/' || c === '>') return props;
           if (/\s/.test(c)) {
             if (attrName) {
               state = 'AttrEqual'; // 读取‘=’
             }
-          } else if (c === '=') { // 状态切换，值收集
+          } else if (c === '=') {
+            // 状态切换，值收集
             if (!attrName) {
               throw UnMatchedError.forAttrKey(c);
             }
@@ -174,7 +173,8 @@ export class Lexer {
           }
           break;
         case 'AttrEqual':
-          if (c === '=') { // 处理值
+          if (c === '=') {
+            // 处理值
             state = 'AttrQuoteOrJSX';
           }
           break;
@@ -203,7 +203,8 @@ export class Lexer {
         case 'SpreadJSX': // 扩展运算符
           i += 3;
         case 'JSX':
-          const { str, jsx } = parseCode(this.str.slice(i))
+          const { str, jsx } = parseCode(this.str.slice(i));
+
           i += str.length;
 
           props[state === 'SpreadJSX' ? 'spreadAttribute' : attrName] = makeJSX(jsx);
@@ -218,7 +219,6 @@ export class Lexer {
     }
     throw 'unexpect end';
   }
-
 }
 
 const jsxSurce: string = fs.readFileSync(resolve(__dirname, './test.jsx')).toString('utf-8');
